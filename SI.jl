@@ -31,7 +31,7 @@ function main()
         println("Condições iniciais não-positivas.")
     elseif alfa <= 0
         println("Alfa deve ser maior que zero.")
-    elseif (delta_t > 1/alfa)
+    elseif delta_t > 1/alfa
         println("Delta t deve ser menor ou igual a 1/alfa.")
     else
         discreteSI_model(S, I)
