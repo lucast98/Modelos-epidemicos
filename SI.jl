@@ -18,7 +18,7 @@ end
 #Função para obter o resultado do modelo SI com uma única população
 function discreteSI_model(S, I)
     produto = (alfa*delta_t)/N
-    for n = 1:N-1
+    for n = 1:30
         #println(S[n], " - ", I[n])
         push!(S, floor(S[n]*(1 - produto*I[n]))) #armazena o novo valor no vetor de suscetíveis, além de arredondar para menos
         push!(I, ceil(I[n]*(1 + produto*S[n]))) #armazena o novo valor no vetor de infectados, além de arredondar para mais
