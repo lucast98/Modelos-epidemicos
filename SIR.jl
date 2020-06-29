@@ -1,6 +1,4 @@
 using PyCall
-using Conda
-Conda.add
 matplotlib = pyimport("matplotlib") 
 plt = pyimport("matplotlib.pyplot")
 
