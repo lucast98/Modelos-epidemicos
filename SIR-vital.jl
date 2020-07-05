@@ -10,7 +10,7 @@ I = [] #vetor com qtd de pessoas infectadas em função de n
 R = [] #vetor com qtd de pessoas rejeitadas em função de n
 alfa = 2 #taxa de contato
 gamma = 1 #chance de um individuo infectado ser removido do processo de infecção
-
+beta = 0.3;#taxa de natalidade = taxa de mortalidade
 #Função para definir as condições inicias de cada subpopulação
 function initialConditions(S, I, R)
     push!(I, 1)  #condição inicial
@@ -22,10 +22,10 @@ end
 function discreteSI_model(S, I, R)
     produto = (alfa*delta_t)/N
     for n = 1:30
-        push!(S,(S[n]*(1 - produto*I[n]))) #armazena o novo valor no vetor de suscetíveis
-        push!(I,(I[n]*(1 - gamma*delta_t + produto*S[n]))) #armazena o novo valor no vetor de infectados
+        push!(S,(S[n]*(1 - produto*I[n]))+beta*delta_t*(N-S[n])) #armazena o novo valor no vetor de suscetíveis
+        push!(I,(I[n]*(1 - gamma*delta_t -beta*delta_t + produto*S[n]))) #armazena o novo valor no vetor de infectados
         #push!(R, floor(R[n] + gamma*delta_t*I[n])) #armazena o novo valor no vetor de removido
-        push!(R, R[n]+gamma*delta_t*I[n]) 
+        push!(R, R[n]*(1-beta*delta_t)+gamma*delta_t*I[n]) 
     end
     println(S)
     println(I)
@@ -41,10 +41,8 @@ function main()
     elseif gamma <= 0
         println("Gamma deve ser maior que zero")
     elseif delta_t > min(1/alfa, 1/gamma)
-        println("Delta t deve ser menor ou igual a ", min(1/alfa, 1/gamma), ".")
+        println("Delta t deve ser menor ou igual a ", min(1/(gamma+beta), ((1+sqrt(beta*delta_t))^2)/alfa), ".")
     else
-        R0 = (S[1]*alfa)/(N*gamma)
-        println("R0 = ", R0)
         discreteSI_model(S, I, R)
         plt.figure()
         plt.plot(I, linestyle=":", marker="x", color="red", label = "Infectados")
