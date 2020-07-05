@@ -40,7 +40,9 @@ function main()
         println("Alfa deve ser maior que zero.")
     elseif gamma <= 0
         println("Gamma deve ser maior que zero")
-    elseif delta_t > min(1/alfa, 1/gamma)
+    elseif beta <= 0
+        println("Beta deve ser maior que zero")
+    elseif delta_t > min(1/(gamma+beta), ((1+sqrt(beta*delta_t))^2)/alfa)
         println("Delta t deve ser menor ou igual a ", min(1/(gamma+beta), ((1+sqrt(beta*delta_t))^2)/alfa), ".")
     else
         discreteSI_model(S, I, R)
